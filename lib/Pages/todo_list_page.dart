@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/todo_list_Item.dart';
+
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key}) : super(key: key);
 
@@ -14,89 +16,88 @@ class _TodoListPageState extends State<TodoListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: todoController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Adicione uma tarefa',
-                        hintText: 'Ex. Estudar',
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: todoController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Adicione uma tarefa',
+                          hintText: 'Ex. Estudar',
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      String text = todoController.text;
-                      setState(() {
-                        todos.add(text);
-                      });
-                      todoController.clear();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xff58d385),
-                      padding: EdgeInsets.all(14),
+                    SizedBox(
+                      width: 8,
                     ),
-                    child: Icon(
-                      Icons.add,
-                      size: 30,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    for (String todo in todos)
-                      ListTile(
-                        title: Text(todo),
-                        leading: Icon(
-                          Icons.event,
-                          size: 30,
-                        ),
-                      )
+                    ElevatedButton(
+                      onPressed: () {
+                        String text = todoController.text;
+                        setState(() {
+                          todos.add(text);
+                        });
+                        todoController.clear();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xff58d385),
+                        padding: EdgeInsets.all(14),
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        size: 30,
+                      ),
+                    )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text('Voce possui 0 tarefas pendentes'),
+                SizedBox(
+                  height: 16,
+                ),
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      for (String todo in todos)
+                        TodoListItem(
+                          title: todo,
+                        ),
+                    ],
                   ),
-                  SizedBox(width: 18),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        todos.clear();
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xff58d385),
-                      padding: EdgeInsets.all(14),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                          'Voce possui  ${todos.length} tarefas pendentes'),
                     ),
-                    child: Text('Limpar tudo'),
-                  )
-                ],
-              )
-            ],
+                    SizedBox(width: 18),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          todos.clear();
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xff58d385),
+                        padding: EdgeInsets.all(14),
+                      ),
+                      child: Text('Limpar tudo'),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
